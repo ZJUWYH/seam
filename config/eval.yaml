@@ -1,0 +1,38 @@
+TrainingArguments:
+  output_dir: null  # Directory to save the model
+  per_device_train_batch_size: 4  # You can adjust this based on your GPU capacity
+  save_strategy: "no"
+  num_train_epochs: 1  # Training for 1 epoch
+  learning_rate: !!float 5e-5  # Learning rate
+  weight_decay: 0.01  # You can adjust the weight decay value
+  # logging_dir='./logs'  # Directory for logs
+  # logging_steps=10  # Print log every 10 steps
+  # save_steps=500  # Save model every 500 steps
+  # evaluation_strategy="no"  # No evaluation during training
+  lr_scheduler_type: "cosine"  # Scheduler type
+  warmup_ratio: 0.1  # Warmup ratio
+  gradient_accumulation_steps: 1  # Number of steps to accumulate gradients
+  report_to: "wandb"
+  logging_steps: 10
+  max_grad_norm: null
+  # gradient_checkpointing: True # Enable gradient checkpointing
+  # gradient_checkpointing_kwargs: {"use_reentrant": False} # Gradient checkpointing arguments
+  bf16: True
+  optim: "adamw_torch"
+
+
+
+
+EvalArguments:
+  model_name: "meta-llama/Llama-2-7b-chat-hf" 
+  tokenizer_name: "meta-llama/Llama-2-7b-chat-hf"
+  pre_utility: True # Whether to evaluate the model before training
+  post_utility: True # Whether to evaluate the model after training
+  attack: True # Whether to perform the attack
+  attack_dataset: True # Whether to use the attack dataset
+  attack_size: 1000 # Number of samples to attack
+  utility_tasks: ["arc_easy","mmlu"] # List of utility tasks
+  utility_batch_size: 24 # Batch size for utility tasks
+  wandb_run_name: null # Name of the wandb run
+  lora_attack: False # Whether to use LoRA for the attack
+  wandb_project_name: "seam" # Name of the wandb project

@@ -1,0 +1,34 @@
+TrainingArguments:
+  output_dir: null  # Directory to save the model
+  per_device_train_batch_size: 4  # You can adjust this based on your GPU capacity
+  save_strategy: "steps"
+  save_only_model: True  # Save only the model, not the entire training state
+  num_train_epochs: 1  # Training for 1 epoch
+  learning_rate: !!float 2e-5  # Learning rate
+  weight_decay: 0.0  # You can adjust the weight decay value
+  # logging_dir: './logs'  # Directory for logs
+  # logging_steps: 10  # Print log every 10 steps
+  save_steps: 250  # Save model every 500 steps
+  lr_scheduler_type: "cosine"  # Scheduler type
+  warmup_ratio: 0.1  # Warmup ratio
+  gradient_accumulation_steps: 1  # Number of steps to accumulate gradients
+  report_to: "wandb"  # Report to wandb
+  logging_steps: 1
+  bf16: True
+  optim: "adamw_torch"  # Optimizer type
+  max_grad_norm: null 
+  gradient_checkpointing: True # Enable gradient checkpointing
+  gradient_checkpointing_kwargs: {"use_reentrant": False} # Gradient checkpointing arguments
+
+UnlearnArguments:
+  model_name: "meta-llama/Llama-2-7b-chat-hf" # Base model name
+  tokenizer_name: "meta-llama/Llama-2-7b-chat-hf"
+  attack_dataset: False # Whether to use the attack dataset
+  defense_size: 8000 # Number of samples to train the model
+  epsilon: !!float 1e-3 # Epsilon value for the attack (perturbation radius)
+  alpha: 1 # Alpha value for the attack (weight of L_up)
+  beta: 0.01 # Beta value for the attack (weight of L_sd)
+  wandb_run_name: null # Name of the wandb run
+  wandb_project_name: "seam" # Name of the wandb project
+
+
